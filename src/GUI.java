@@ -419,23 +419,23 @@ public class GUI extends Application {
         switch (Turn) {
             case Draw:
                 System.out.println("Draw");
+                updateHand();
                 draw();
-
                 break;
             case Discard:
                 System.out.println("Discard");
+                updateHand();
                 discard();
-
                 break;
             case Attack:
                 System.out.println("attack");
+                updateHand();
                 battle();
-
                 break;
             case Defend:
                 System.out.println("Defend");
+                updateHand();
                 defend();
-
                 break;
         }
     }
