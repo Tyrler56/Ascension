@@ -418,20 +418,24 @@ public class GUI extends Application {
     private void doTurns() {
         switch (Turn) {
             case Draw:
-                draw();
                 System.out.println("Draw");
+                draw();
+
                 break;
             case Discard:
-                discard();
                 System.out.println("Discard");
+                discard();
+
                 break;
             case Attack:
-                battle();
                 System.out.println("attack");
+                battle();
+
                 break;
             case Defend:
-                defend();
                 System.out.println("Defend");
+                defend();
+
                 break;
         }
     }
