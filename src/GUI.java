@@ -105,7 +105,7 @@ public class GUI extends Application {
 
     public void updateHand() {
         for (int i = 0; i < 3; i++)
-            cardsInHand.add(p1.getHand().get(i));
+            cardsInHand.set(i,p1.getHand().get(i));
         card1.setImage(new Image(cardsInHand.get(0) + ".png"));
         card2.setImage(new Image(cardsInHand.get(1) + ".png"));
         card3.setImage(new Image(cardsInHand.get(2) + ".png"));
