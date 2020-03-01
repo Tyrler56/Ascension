@@ -24,7 +24,9 @@ public class GUI extends Application {
     public enum turnPhases {
         Draw,
         Discard,
+        AttackChoose,
         Attack,
+        DefendChoose,
         Defend;
     }
 
@@ -110,7 +112,7 @@ public class GUI extends Application {
     }
 
     public void discard() {
-        Turn = turnPhases.Attack;
+        Turn = turnPhases.AttackChoose;
         doTurns();
     }
 
@@ -122,7 +124,9 @@ public class GUI extends Application {
             updateHand();
             for (Integer num : monsterOnField)
                 p1.takeDamage(num);
-            Turn = turnPhases.Defend;
+            Turn = turnPhases.DefendChoose;
+            cardChosen=0;
+            monsterChosen=0;
             updateHand();
             doTurns();
         }
@@ -145,11 +149,11 @@ public class GUI extends Application {
 
     private void card1() {
         switch (Turn) {
-            case Attack:
+            case AttackChoose:
                 cardChosen = p1.getHand().get(0);
                 indexP = 0;
                 break;
-            case Defend:
+            case DefendChoose:
                 cardChosen = p1.getHand().get(0);
                 indexP = 0;
                 break;
@@ -158,7 +162,7 @@ public class GUI extends Application {
 
     private void card2() {
         switch (Turn) {
-            case Attack:
+            case AttackChoose:
                 cardChosen = p1.getHand().get(1);
                 indexP = 1;
                 break;
@@ -171,11 +175,11 @@ public class GUI extends Application {
 
     private void card3() {
         switch (Turn) {
-            case Attack:
+            case AttackChoose:
                 cardChosen = p1.getHand().get(2);
                 indexP = 2;
                 break;
-            case Defend:
+            case DefendChoose:
                 cardChosen = p1.getHand().get(2);
                 indexP = 2;
                 break;
@@ -184,13 +188,13 @@ public class GUI extends Application {
 
     private void monster1() {
         switch (Turn) {
-            case Attack:
+            case AttackChoose:
                 monsterChosen = monsterOnField.get(0);
                 indexM = 0;
                 Turn = turnPhases.Attack;
                 doTurns();
                 break;
-            case Defend:
+            case DefendChoose:
                 monsterChosen = monsterOnField.get(0);
                 indexM = 0;
                 Turn = turnPhases.Defend;
@@ -201,13 +205,13 @@ public class GUI extends Application {
 
     private void monster2() {
         switch (Turn) {
-            case Attack:
+            case AttackChoose:
                 monsterChosen = monsterOnField.get(1);
                 indexM = 1;
                 Turn = turnPhases.Attack;
                 doTurns();
                 break;
-            case Defend:
+            case DefendChoose:
                 monsterChosen = monsterOnField.get(1);
                 indexM = 1;
                 Turn = turnPhases.Defend;

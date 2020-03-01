@@ -32,9 +32,12 @@ public class Health
         int [] damageTaken = new int [2];
         if(card>10)
         {//if a face cards hits
+
             damageTaken[0]=healthDeck[cardsRemaining-1];
             healthDeck[cardsRemaining-1]=0;
             cardsRemaining--;
+            if(cardsRemaining==0)
+                return damageTaken;
             damageTaken[1]=healthDeck[cardsRemaining-1];
             healthDeck[cardsRemaining-1]=0;
             cardsRemaining--;
