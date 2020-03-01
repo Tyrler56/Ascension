@@ -419,7 +419,7 @@ public class GUI extends Application {
         switch (Turn) {
             case Draw:
                 System.out.println("Draw");
-                updateHand();
+
                 draw();
                 break;
             case Discard:
