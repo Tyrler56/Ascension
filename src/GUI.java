@@ -72,10 +72,10 @@ public class GUI extends Application {
                 for (int i = 0; i < 3; i++)
                     cardsInHand.add(p1.getHand().get(i));
                 updateHand();
-                mon1.setImage(new Image(monsters.getMonster(monstersLeft) + "M.PNG"));
+                mon1.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
                 monsterOnField.add(monsters.getMonster(monstersLeft));
                 monstersLeft--;
-                mon2.setImage(new Image(monsters.getMonster(monstersLeft) + "M.PNG"));
+                mon2.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
                 monsterOnField.add(monsters.getMonster(monstersLeft));
                 monstersLeft--;
                 Turn = turnPhases.Discard;
@@ -89,13 +89,13 @@ public class GUI extends Application {
                 updateHand();
                 if (monsterOnField.get(0) == 0) ;
             {
-                mon1.setImage(new Image(monsters.getMonster(monstersLeft) + "M.PNG"));
+                mon1.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
                 monsterOnField.set(0, monsters.getMonster(monstersLeft));
                 monstersLeft--;
             }
             if (monsterOnField.get(1) == 0) ;
             {
-                mon2.setImage(new Image(monsters.getMonster(monstersLeft) + "M.PNG"));
+                mon2.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
                 monsterOnField.set(1, monsters.getMonster(monstersLeft));
                 monstersLeft--;
             }
@@ -106,9 +106,9 @@ public class GUI extends Application {
     }
 
     public void updateHand() {
-        card1.setImage(new Image(cardsInHand.get(0) + ".PNG"));
-        card2.setImage(new Image(cardsInHand.get(1) + ".PNG"));
-        card3.setImage(new Image(cardsInHand.get(2) + ".PNG"));
+        card1.setImage(new Image(cardsInHand.get(0) + ".png"));
+        card2.setImage(new Image(cardsInHand.get(1) + ".png"));
+        card3.setImage(new Image(cardsInHand.get(2) + ".png"));
     }
 
     public void discard() {
