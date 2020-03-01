@@ -84,8 +84,6 @@ public class GUI extends Application {
                 break;
             case 1:
                 p1.drawCard();
-                for (int i = 0; i < 3; i++)
-                    cardsInHand.add(p1.getHand().get(i));
                 updateHand();
                 if (monsterOnField.get(0) == 0) ;
             {
@@ -106,6 +104,8 @@ public class GUI extends Application {
     }
 
     public void updateHand() {
+        for (int i = 0; i < 3; i++)
+            cardsInHand.add(p1.getHand().get(i));
         card1.setImage(new Image(cardsInHand.get(0) + ".png"));
         card2.setImage(new Image(cardsInHand.get(1) + ".png"));
         card3.setImage(new Image(cardsInHand.get(2) + ".png"));
@@ -419,7 +419,6 @@ public class GUI extends Application {
         switch (Turn) {
             case Draw:
                 System.out.println("Draw");
-
                 draw();
                 break;
             case Discard:
