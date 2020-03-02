@@ -62,7 +62,7 @@ public class GUI extends Application {
             cardsInHand.add(0);
         monsterOnField = new ArrayList<>(2);
         monstersLeft = 47;
-        Health = p1.getHealth()+1;
+        Health = p1.getHealth() + 1;
     }
 
     public void draw() {
@@ -81,14 +81,12 @@ public class GUI extends Application {
         if (drawTurn == 1) {
             p1.drawCard();
             updateHand();
-            if(monsterOnField.get(0) == 0)
-            {
+            if (monsterOnField.get(0) == 0) {
                 monsterOnField.set(0, monsters.getMonster(monstersLeft));
                 monstersLeft--;
                 updateMonster();
             }
-            if(monsterOnField.get(1) == 0)
-            {
+            if (monsterOnField.get(1) == 0) {
                 monsterOnField.set(1, monsters.getMonster(monstersLeft));
                 monstersLeft--;
                 updateMonster();
@@ -121,24 +119,23 @@ public class GUI extends Application {
             monsterDiscard.addCards(monsterChosen);
             monsterOnField.set(indexM, 0);
             p1.attack(indexP);
-            cardChosen = 0;
-            monsterChosen = 0;
             updateHand();
             updateMonster();
 
         }
 
+
     }
 
     public void defend() {
-        for (int i = 0; i < 1; i++) {
-            for (int k = 0; k < 2; k++) {
-                if (monsterOnField.get(i) > cardsInHand.get(k))
+        if (cardChosen == 0 && monsterChosen == 0)
+            for (int i = 0; i < 2; i++)
+                if (monsterOnField.get(i) != 0) {
                     p1.takeDamage(monsterOnField.get(i));
-                healthNum.setText("Health Remaining: " + (p1.getHealth()+1));
-            }
-        }
-        if (cardChosen >= monsterChosen) {
+                    healthNum.setText("Health Remaining: " + (p1.getHealth() + 1));
+                }
+
+        if (cardChosen >= monsterChosen&&cardChosen!=0) {
             monsterDiscard.addCards(monsterChosen);
             monsterOnField.set(indexM, 0);
             p1.defend(indexP);
@@ -161,53 +158,107 @@ public class GUI extends Application {
                 currentPhase.setText("Current Phase is: " + Turn);
                 break;
             case Discard:
+                cardChosen = 0;
+                monsterChosen = 0;
+                indexP = -1;
+                indexM = -1;
                 Turn = turnPhases.AttackChoose;
                 currentPhase.setText("Current Phase is: " + Turn);
+                m1.setVisible(true);
+                m2.setVisible(true);
+                h1.setVisible(true);
+                h2.setVisible(true);
+                h3.setVisible(true);
                 break;
             case AttackChoose:
                 Turn = turnPhases.Attack;
                 currentPhase.setText("Current Phase is: " + Turn);
+                m1.setVisible(false);
+                m2.setVisible(false);
+                h1.setVisible(false);
+                h2.setVisible(false);
+                h3.setVisible(false);
                 doTurns();
                 break;
             case Attack:
                 Turn = turnPhases.DefendChoose;
                 currentPhase.setText("Current Phase is: " + Turn);
+                m1.setVisible(true);
+                m2.setVisible(true);
+                h1.setVisible(true);
+                h2.setVisible(true);
+                h3.setVisible(true);
+                cardChosen = 0;
+                monsterChosen = 0;
+                indexP = -1;
+                indexM = -1;
                 break;
             case DefendChoose:
                 Turn = turnPhases.Defend;
                 currentPhase.setText("Current Phase is: " + Turn);
+                m1.setVisible(false);
+                m2.setVisible(false);
+                h1.setVisible(false);
+                h2.setVisible(false);
+                h3.setVisible(false);
                 doTurns();
                 break;
             case Defend:
                 Turn = turnPhases.Draw;
                 currentPhase.setText("Current Phase is: " + Turn);
                 doTurns();
+                break;
         }
     }
 
     private void card1() {
-        cardChosen = p1.getHand().get(0);
-        indexP = 0;
+        if (p1.getHand().get(0) != 0) {
+            cardChosen = p1.getHand().get(0);
+            indexP = 0;
+        } else {
+            cardChosen = 0;
+            indexP = -1;
+        }
     }
 
     private void card2() {
-        cardChosen = p1.getHand().get(1);
-        indexP = 1;
+        if (p1.getHand().get(1) != 0) {
+            cardChosen = p1.getHand().get(1);
+            indexP = 1;
+        } else {
+            cardChosen = 0;
+            indexP = -1;
+        }
     }
 
     private void card3() {
-        cardChosen = p1.getHand().get(2);
-        indexP = 2;
+        if (p1.getHand().get(2) != 0) {
+            cardChosen = p1.getHand().get(2);
+            indexP = 2;
+        } else {
+            cardChosen = 0;
+            indexP = -1;
+        }
     }
 
     private void monster1() {
-        monsterChosen = monsterOnField.get(0);
-        indexM = 0;
+        if (monsterOnField.get(0) != 0) {
+            monsterChosen = monsterOnField.get(0);
+            indexM = 0;
+        } else {
+            monsterChosen = 0;
+            indexM = -1;
+        }
     }
 
     private void monster2() {
-        monsterChosen = monsterOnField.get(1);
-        indexM = 1;
+        if (monsterOnField.get(1) != 0) {
+            monsterChosen = monsterOnField.get(1);
+            indexM = 1;
+        } else {
+            monsterChosen = 0;
+            indexM = -1;
+        }
     }
 
     private void ClassMage() {
@@ -365,7 +416,7 @@ public class GUI extends Application {
             pane.add(card3, 20, 25);
             pane.add(mon1, 15, 7);
             pane.add(mon2, 20, 7);
-            scene = new Scene(pane, 800, 700);
+            scene = new Scene(pane, 850, 600);
             stage.setTitle("Ascension");
             stage.setScene(scene);
             stage.show();
@@ -412,6 +463,11 @@ public class GUI extends Application {
                     e.printStackTrace();
                 }
             });
+            m1.setVisible(false);
+            m2.setVisible(false);
+            h1.setVisible(false);
+            h2.setVisible(false);
+            h3.setVisible(false);
             doTurns();
         }
     }

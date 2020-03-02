@@ -34,12 +34,12 @@ public class Health
         {//if a face cards hits
 
             damageTaken[0]=healthDeck[cardsRemaining];
-            healthDeck[cardsRemaining-1]=0;
+            healthDeck[cardsRemaining]=0;
             cardsRemaining--;
             if(cardsRemaining==0)
                 return damageTaken;
             damageTaken[1]=healthDeck[cardsRemaining];
-            healthDeck[cardsRemaining-1]=0;
+            healthDeck[cardsRemaining]=0;
             cardsRemaining--;
         }else if(card>0&&card<11)
         {//if any other card hits

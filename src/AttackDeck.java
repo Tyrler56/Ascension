@@ -20,7 +20,7 @@ public class AttackDeck
             tempDeck[i]=i+1;
         shuffleIntArray(tempDeck);
         //for(int i =0;i<tempDeck.length;i++)
-          //  System.out.println(tempDeck[i]);
+          //System.out.print(tempDeck[i]+" ");
         for(int i=0;i<tempDeck.length;i++)
             attackDeck[i]=tempDeck[i];
     }

@@ -108,12 +108,19 @@ public class DiscardPiles
                     count++;           
             }
             copy= new int[count];
+            int index=0;
             for(int i=0;i<copy.length;i++){
-                copy[i]=attackDiscard[i];
-                attackDiscard[i]=0;
+                if(attackDiscard[i]!=0) {
+                    copy[index] = attackDiscard[i];
+                    index++;
+                    attackDiscard[i]=0;
+                }
+
             }
             shuffleIntArray(copy);
             numOfCards=0;
+            for(int i=0;i<copy.length;i++)
+                System.out.print(copy[i]+" ");
             return copy;
         }
         if(type.equals("Health"))
