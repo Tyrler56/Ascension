@@ -52,6 +52,7 @@ public class GUI extends Application {
     private Scene scene;
     private Button h1, h2, h3, m1, m2, nextPhase;
 
+    //The construcor will handle all the player creation things and field creation
     public void create(String choice) {
         drawTurn = 0;
         p1 = new Player(choice);
@@ -65,6 +66,10 @@ public class GUI extends Application {
         Health = p1.getHealth() + 1;
     }
 
+    /*This method is called whenever the draw phase begins
+     * it calls players draw method then copys the cards drawn into the gui's card list
+     * it also calls the monsterdeck's get monster which "Spawns" the monster
+     */
     public void draw() {
         if (drawTurn == 0) {
             p1.drawCard();
@@ -96,6 +101,9 @@ public class GUI extends Application {
         }
     }
 
+    /*The two following methods update the field so they get their data from the two array list for monster and hand
+     *
+     */
     public void updateHand() {
         for (int i = 0; i < 3; i++)
             cardsInHand.set(i, p1.getHand().get(i));
@@ -109,13 +117,18 @@ public class GUI extends Application {
         mon2.setImage(new Image(monsterOnField.get(1) + "M.png"));
     }
 
+    /*When working properly it will allow the player to discard their whole hand and draw one card
+     *or to discard 1 card and draw no cards
+     */
     public void discard() {
 
 
     }
-
+    /*This method takes care of the attack phase
+     *
+     */
     public void battle() {
-        if (cardChosen >= monsterChosen) {
+        if (cardChosen >= monsterChosen&&cardChosen!=0) {
             monsterDiscard.addCards(monsterChosen);
             monsterOnField.set(indexM, 0);
             p1.attack(indexP);
@@ -126,7 +139,9 @@ public class GUI extends Application {
 
 
     }
-
+/*This method takes care of the defending phase and has safeguards against not choosing a card
+ *
+ */
     public void defend() {
         if (cardChosen == 0 && monsterChosen == 0)
             for (int i = 0; i < 2; i++)
@@ -135,7 +150,7 @@ public class GUI extends Application {
                     healthNum.setText("Health Remaining: " + (p1.getHealth() + 1));
                 }
 
-        if (cardChosen >= monsterChosen&&cardChosen!=0) {
+        if (cardChosen >= monsterChosen && cardChosen != 0) {
             monsterDiscard.addCards(monsterChosen);
             monsterOnField.set(indexM, 0);
             p1.defend(indexP);
@@ -149,7 +164,9 @@ public class GUI extends Application {
         }
 
     }
-
+    /*This is the action event for the button in charge of the phase changes
+     *it will also update the current stage in the currentPhase label
+     */
     private void setNextPhase() {
 
         switch (Turn) {
@@ -210,7 +227,9 @@ public class GUI extends Application {
                 break;
         }
     }
-
+/*The following ten methods are all just action events for the buttons created
+ * at the moment they do not do much more than change the stage but the class choices are what allow different classes to be played.
+ */
     private void card1() {
         if (p1.getHand().get(0) != 0) {
             cardChosen = p1.getHand().get(0);
@@ -290,7 +309,11 @@ public class GUI extends Application {
 
         start(stage);
     }
-
+    /*This method is the stage creator the GUI. Depending on the stage it will create a different scene
+     *The scene that is used for gameplay is phase 2. In that phase all the buttons and label are initialized for use later
+     *
+     *
+     */
     public void start(Stage holder) {
         if (Phase == 0) {
             // Create a Button or any control item
@@ -471,7 +494,7 @@ public class GUI extends Application {
             doTurns();
         }
     }
-
+    //This method is the one in charge of calling all the other turn methods that were created above
     private void doTurns() {
         switch (Turn) {
             case Draw:
