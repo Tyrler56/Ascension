@@ -50,7 +50,7 @@ public class GUI extends Application {
     private GridPane pane;
     private ImageView card1, card2, card3, mon1, mon2;
     private Scene scene;
-    private Button h1, h2, h3, m1, m2, nextPhase;
+    private Button h1, h2, h3, m1, m2, nextPhase,discardHand;
 
     //The construcor will handle all the player creation things and field creation
     public void create(String choice) {
@@ -173,6 +173,7 @@ public class GUI extends Application {
             case Draw:
                 Turn = turnPhases.Discard;
                 currentPhase.setText("Current Phase is: " + Turn);
+                discardHand.setVisible(true);
                 break;
             case Discard:
                 cardChosen = 0;
@@ -186,6 +187,7 @@ public class GUI extends Application {
                 h1.setVisible(true);
                 h2.setVisible(true);
                 h3.setVisible(true);
+                discardHand.setVisible(false);
                 break;
             case AttackChoose:
                 Turn = turnPhases.Attack;
@@ -230,6 +232,10 @@ public class GUI extends Application {
 /*The following ten methods are all just action events for the buttons created
  * at the moment they do not do much more than change the stage but the class choices are what allow different classes to be played.
  */
+    private void DiscardHand(){
+        p1.discardCards();
+        updateHand();
+    }
     private void card1() {
         if (p1.getHand().get(0) != 0) {
             cardChosen = p1.getHand().get(0);
@@ -409,6 +415,7 @@ public class GUI extends Application {
             h1 = new Button("Card 1");
             h2 = new Button("Card 2");
             h3 = new Button("Card 3");
+            discardHand = new Button("Discard Hand");
             nextPhase = new Button("Next Phase");
             card1 = new ImageView();
             card2 = new ImageView();
@@ -439,10 +446,18 @@ public class GUI extends Application {
             pane.add(card3, 20, 25);
             pane.add(mon1, 15, 7);
             pane.add(mon2, 20, 7);
+            pane.add(discardHand,25,27);
             scene = new Scene(pane, 850, 600);
             stage.setTitle("Ascension");
             stage.setScene(scene);
             stage.show();
+            discardHand.setOnAction(action ->{
+                    try {
+                        DiscardHand();
+                    }catch(Exception e) {
+                        e.printStackTrace();
+                    }
+            });
             nextPhase.setOnAction(action -> {
                 try {
                     setNextPhase();
@@ -486,6 +501,7 @@ public class GUI extends Application {
                     e.printStackTrace();
                 }
             });
+            discardHand.setVisible(false);
             m1.setVisible(false);
             m2.setVisible(false);
             h1.setVisible(false);

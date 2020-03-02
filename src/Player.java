@@ -48,6 +48,10 @@ public class Player
         if(attack.cardsRemaining()==0)
             attack.addCards(attackDiscard.removeCards());
     }
+
+
+
+
     //returns hand so that the GUI can display it later
     public  ArrayList<Integer> getHand()
     {
@@ -66,6 +70,24 @@ public class Player
             hand.set(i,0);
         }
         attackDiscard.addCards(discardedCards);
+        cardsInHand=0;
+        int index=0;
+        int [] drawnCards = attack.drawCards(1);
+        for(int i=0;i<hand.size();i++)
+        {
+            if(attack.cardsRemaining()==0)
+                attack.addCards(attackDiscard.removeCards());
+            if(hand.get(i)==0) {
+                hand.set(i, drawnCards[index]);
+                index++;
+                cardsInHand++;
+            }
+            if(index==drawnCards.length)
+                break;
+
+        }
+        if(attack.cardsRemaining()==0)
+            attack.addCards(attackDiscard.removeCards());
     }
     //This method is for doing an attack
     public void attack(int index)
