@@ -41,7 +41,7 @@ public class Health
             damageTaken[1]=healthDeck[cardsRemaining];
             healthDeck[cardsRemaining-1]=0;
             cardsRemaining--;
-        }else
+        }else if(card>0&&card<11)
         {//if any other card hits
             damageTaken[0]=healthDeck[cardsRemaining];
             cardsRemaining--;

@@ -32,11 +32,13 @@ public class Player
     //hand
     public void drawCard()
     {
+        int index=0;
         int [] drawnCards = attack.drawCards(3-cardsInHand);
-        for(int i=0;i<drawnCards.length;i++)
+        for(int i=0;i<hand.size();i++)
         {
             if(hand.get(i)==0) {
-                hand.set(i, drawnCards[i]);
+                hand.set(i, drawnCards[index]);
+                index++;
                 cardsInHand++;
             }
 
