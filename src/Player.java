@@ -35,8 +35,10 @@ public class Player
         int [] drawnCards = attack.drawCards(3-cardsInHand);
         for(int i=0;i<drawnCards.length;i++)
         {
-            hand.set(i,drawnCards[i]);
-            cardsInHand++;
+            if(hand.get(i)==0) {
+                hand.set(i, drawnCards[i]);
+                cardsInHand++;
+            }
 
         }
         if(attack.cardsRemaining()==0)
@@ -64,6 +66,7 @@ public class Player
     //This method is for doing an attack
     public void attack(int index)
     {
+        cardsInHand--;
         int cardUsed = hand.get(index);
         attackDiscard.addCards(cardUsed);
         hand.set(index,0);
@@ -78,7 +81,7 @@ public class Player
     //this method is the same as doing an attack except that it does
     //not kill the monster
     public int defend(int index)
-    {
+    {   cardsInHand--;
         int cardUsed = hand.get(index);
         hand.set(index,0);
         return cardUsed;

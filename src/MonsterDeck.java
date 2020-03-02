@@ -13,19 +13,19 @@ public class MonsterDeck
     public MonsterDeck()
     {
         int count;
-        count =2;
+        count =1;
         //creates the numberDeck by giving number 2-10 inclusive
         for(int i=0;i<numberDeck.length;i++)
         {
             numberDeck[i]=count;
-            if(count ==10)
-                count=2;
+            if(count ==9)
+                count=1;
             else
                 count++;
         }
         //shuffle the deck of numbers
         shuffleIntArray(numberDeck);
-        count = 11;
+        count = 10;
         int correction =0;
         //creates the monster deck by seting the royalty every four cards and
         //sets the cards in between from the cards in the numberDeck
@@ -38,8 +38,8 @@ public class MonsterDeck
                 correction++;
             }else
                 monsterDeck[i]=numberDeck[i-correction];
-            if(count ==13)
-                count=11;
+            if(count ==12)
+                count=10;
             else
                 count++;
         }

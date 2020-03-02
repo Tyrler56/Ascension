@@ -27,7 +27,7 @@ public class GUI extends Application {
         AttackChoose,
         Attack,
         DefendChoose,
-        Defend;
+        Defend
     }
 
     // We keep track of the count, and label displaying the count:
@@ -44,31 +44,29 @@ public class GUI extends Application {
     private Player p1;
     private MonsterDeck monsters;
     private DiscardPiles monsterDiscard;
-    private ArrayList<Integer> monsterOnField, unblockableLane, cardsInHand;
+    private ArrayList<Integer> monsterOnField, cardsInHand;
     private int cardChosen, monsterChosen, Health, monstersLeft, indexM, indexP, drawTurn;
-    private Label monsterDeck, monsterDiscardL, healthDeck, healthDiscard, attackDeck, attackDiscard, healthNum,currentPhase;
-    private boolean isAlive;
+    private Label monsterDeck, monsterDiscardL, healthDeck, healthDiscard, attackDeck, attackDiscard, healthNum, currentPhase;
     private GridPane pane;
     private ImageView card1, card2, card3, mon1, mon2;
     private Scene scene;
-    private Button h1, h2, h3, m1, m2,nextPhase,pass;
+    private Button h1, h2, h3, m1, m2, nextPhase;
 
     public void create(String choice) {
         drawTurn = 0;
-        isAlive = true;
         p1 = new Player(choice);
         monsters = new MonsterDeck();
         monsterDiscard = new DiscardPiles("Monster");
         cardsInHand = new ArrayList<>(3);
-        for(int i=0;i<3;i++)
+        for (int i = 0; i < 3; i++)
             cardsInHand.add(0);
         monsterOnField = new ArrayList<>(2);
-        unblockableLane = new ArrayList<>(2);
         monstersLeft = 47;
-        Health = p1.getHealth();
+        Health = p1.getHealth()+1;
     }
+
     public void draw() {
-        if(drawTurn==0) {
+        if (drawTurn == 0) {
             p1.drawCard();
             updateHand();
             mon1.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
@@ -77,26 +75,24 @@ public class GUI extends Application {
             mon2.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
             monsterOnField.add(monsters.getMonster(monstersLeft));
             monstersLeft--;
-            Turn = turnPhases.Discard;
-            drawTurn=1;
-            doTurns();
+            drawTurn = 1;
+
         }
-        if(drawTurn==1){
-                p1.drawCard();
-                updateHand();
-                if (monsterOnField.get(0) == 0) ;
+        if (drawTurn == 1) {
+            p1.drawCard();
+            updateHand();
+            if(monsterOnField.get(0) == 0)
             {
                 monsterOnField.set(0, monsters.getMonster(monstersLeft));
                 monstersLeft--;
                 updateMonster();
             }
-            if (monsterOnField.get(1) == 0) ;
+            if(monsterOnField.get(1) == 0)
             {
                 monsterOnField.set(1, monsters.getMonster(monstersLeft));
                 monstersLeft--;
                 updateMonster();
             }
-            doTurns();
 
 
         }
@@ -104,161 +100,114 @@ public class GUI extends Application {
 
     public void updateHand() {
         for (int i = 0; i < 3; i++)
-            cardsInHand.set(i,p1.getHand().get(i));
+            cardsInHand.set(i, p1.getHand().get(i));
         card1.setImage(new Image(cardsInHand.get(0) + ".png"));
         card2.setImage(new Image(cardsInHand.get(1) + ".png"));
         card3.setImage(new Image(cardsInHand.get(2) + ".png"));
     }
-    public void updateMonster()
-    {
-        mon1.setImage(new Image(monsterOnField.get(0)+"M.png"));
-        mon2.setImage(new Image(monsterOnField.get(1)+ "M.png"));
+
+    public void updateMonster() {
+        mon1.setImage(new Image(monsterOnField.get(0) + "M.png"));
+        mon2.setImage(new Image(monsterOnField.get(1) + "M.png"));
     }
+
     public void discard() {
-        Turn = turnPhases.AttackChoose;
-        doTurns();
+
+
     }
 
     public void battle() {
         if (cardChosen >= monsterChosen) {
             monsterDiscard.addCards(monsterChosen);
-            monsterOnField.set(indexM,0);
+            monsterOnField.set(indexM, 0);
             p1.attack(indexP);
-
-            for (Integer num : monsterOnField)
-                p1.takeDamage(num);
-            Turn = turnPhases.DefendChoose;
-            cardChosen=0;
-            monsterChosen=0;
+            cardChosen = 0;
+            monsterChosen = 0;
             updateHand();
             updateMonster();
-            doTurns();
+
         }
-        Turn = turnPhases.AttackChoose;
+
     }
 
     public void defend() {
-        for(int i=0;i<1;i++)
-        {
-            for(int k=0;k<2;k++)
-            {
-                if(monsterOnField.get(i)>cardsInHand.get(k))
+        for (int i = 0; i < 1; i++) {
+            for (int k = 0; k < 2; k++) {
+                if (monsterOnField.get(i) > cardsInHand.get(k))
                     p1.takeDamage(monsterOnField.get(i));
-                healthNum.setText("Health Remaining: "+ p1.getHealth());
+                healthNum.setText("Health Remaining: " + (p1.getHealth()+1));
             }
         }
         if (cardChosen >= monsterChosen) {
             monsterDiscard.addCards(monsterChosen);
-            monsterOnField.set(indexM,0);
+            monsterOnField.set(indexM, 0);
             p1.defend(indexP);
             updateHand();
-            for (int i=0;i<2;i++)
-                if(monsterOnField.get(i)!=0)
+            for (int i = 0; i < 2; i++)
+                if (monsterOnField.get(i) != 0)
                     p1.takeDamage(monsterOnField.get(i));
-            Turn = turnPhases.Draw;
             updateHand();
             updateMonster();
-            doTurns();
+
         }
-        Turn = turnPhases.DefendChoose;
+
     }
-    private void setNextPhase()
-    {
-        currentPhase.setText("Current Phase is: "+Turn);
-        switch (Turn){
+
+    private void setNextPhase() {
+
+        switch (Turn) {
             case Draw:
                 Turn = turnPhases.Discard;
+                currentPhase.setText("Current Phase is: " + Turn);
                 break;
             case Discard:
                 Turn = turnPhases.AttackChoose;
+                currentPhase.setText("Current Phase is: " + Turn);
                 break;
             case AttackChoose:
-                Turn=turnPhases.Attack;
+                Turn = turnPhases.Attack;
+                currentPhase.setText("Current Phase is: " + Turn);
                 doTurns();
                 break;
-            case DefendChoose:
-                Turn=turnPhases.Defend;
-                doTurns();
-                break;
-        }
-    }
-    private void passTurn()
-    {
-        switch(Turn){
-            case AttackChoose:
-                Turn= turnPhases.DefendChoose;
-                doTurns();
+            case Attack:
+                Turn = turnPhases.DefendChoose;
+                currentPhase.setText("Current Phase is: " + Turn);
                 break;
             case DefendChoose:
                 Turn = turnPhases.Defend;
+                currentPhase.setText("Current Phase is: " + Turn);
                 doTurns();
                 break;
-
-    }
-    }
-    private void card1() {
-        switch (Turn) {
-            case AttackChoose:
-                cardChosen = p1.getHand().get(0);
-                indexP = 0;
-                break;
-            case DefendChoose:
-                cardChosen = p1.getHand().get(0);
-                indexP = 0;
-                break;
+            case Defend:
+                Turn = turnPhases.Draw;
+                currentPhase.setText("Current Phase is: " + Turn);
+                doTurns();
         }
+    }
+
+    private void card1() {
+        cardChosen = p1.getHand().get(0);
+        indexP = 0;
     }
 
     private void card2() {
-        switch (Turn) {
-            case AttackChoose:
-                cardChosen = p1.getHand().get(1);
-                indexP = 1;
-                break;
-            case Defend:
-                cardChosen = p1.getHand().get(1);
-                indexP = 1;
-                break;
-        }
+        cardChosen = p1.getHand().get(1);
+        indexP = 1;
     }
 
     private void card3() {
-        switch (Turn) {
-            case AttackChoose:
-                cardChosen = p1.getHand().get(2);
-                indexP = 2;
-                break;
-            case DefendChoose:
-                cardChosen = p1.getHand().get(2);
-                indexP = 2;
-                break;
-        }
+        cardChosen = p1.getHand().get(2);
+        indexP = 2;
     }
 
     private void monster1() {
-        switch (Turn) {
-            case AttackChoose:
-                monsterChosen = monsterOnField.get(0);
-                indexM = 0;
-                break;
-            case DefendChoose:
-                monsterChosen = monsterOnField.get(0);
-                indexM = 0;
-                break;
-        }
+        monsterChosen = monsterOnField.get(0);
+        indexM = 0;
     }
 
     private void monster2() {
-        switch (Turn) {
-            case AttackChoose:
-                monsterChosen = monsterOnField.get(1);
-                indexM = 1;
-                break;
-            case DefendChoose:
-                monsterChosen = monsterOnField.get(1);
-                indexM = 1;
-                break;
-        }
+        monsterChosen = monsterOnField.get(1);
+        indexM = 1;
     }
 
     private void ClassMage() {
@@ -380,14 +329,13 @@ public class GUI extends Application {
             attackDeck = new Label("Attack Deck");
             attackDiscard = new Label("Attack Discard Pile");
             healthNum = new Label("Health Remaining: " + Health);
-            currentPhase = new Label("Current Phase is:"+Turn);
+            currentPhase = new Label("Current Phase is:" + Turn);
             m1 = new Button("Monster 1");
             m2 = new Button("Monster 2");
             h1 = new Button("Card 1");
             h2 = new Button("Card 2");
             h3 = new Button("Card 3");
-            pass = new Button("Pass");
-            nextPhase= new Button("Next Phase");
+            nextPhase = new Button("Next Phase");
             card1 = new ImageView();
             card2 = new ImageView();
             card3 = new ImageView();
@@ -405,14 +353,13 @@ public class GUI extends Application {
             pane.add(healthNum, 5, 20);
             pane.add(attackDiscard, 20, 15);
             pane.add(attackDeck, 25, 15);
-            pane.add(currentPhase,25,5);
+            pane.add(currentPhase, 25, 5);
             pane.add(m1, 15, 5);
             pane.add(m2, 20, 5);
             pane.add(h1, 10, 20);
             pane.add(h2, 15, 20);
             pane.add(h3, 20, 20);
-            pane.add(pass,15,27);
-            pane.add(nextPhase,20,27);
+            pane.add(nextPhase, 20, 27);
             pane.add(card1, 10, 25);
             pane.add(card2, 15, 25);
             pane.add(card3, 20, 25);
@@ -422,20 +369,14 @@ public class GUI extends Application {
             stage.setTitle("Ascension");
             stage.setScene(scene);
             stage.show();
-            nextPhase.setOnAction(action->{
+            nextPhase.setOnAction(action -> {
                 try {
                     setNextPhase();
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
-            pass.setOnAction(action ->{
-                try {
-                    passTurn();
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+
             m1.setOnAction(action -> {
                 try {
                     monster1();
@@ -479,22 +420,22 @@ public class GUI extends Application {
         switch (Turn) {
             case Draw:
                 updateHand();
-                currentPhase.setText("Current Phase is: "+Turn);
+                currentPhase.setText("Current Phase is: " + Turn);
                 draw();
                 break;
             case Discard:
                 updateHand();
-                currentPhase.setText("Current Phase is: "+Turn);
+                currentPhase.setText("Current Phase is: " + Turn);
                 discard();
                 break;
             case Attack:
                 updateHand();
-                currentPhase.setText("Current Phase is: "+Turn);
+                currentPhase.setText("Current Phase is: " + Turn);
                 battle();
                 break;
             case Defend:
                 updateHand();
-                currentPhase.setText("Current Phase is: "+Turn);
+                currentPhase.setText("Current Phase is: " + Turn);
                 defend();
                 break;
         }

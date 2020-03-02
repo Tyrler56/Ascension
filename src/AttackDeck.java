@@ -40,7 +40,7 @@ public class AttackDeck
             if(attackDeck[i]!=0)
             {
                 drawnCards[count]=attackDeck[i];
-                System.out.println(drawnCards[count]);
+               // System.out.println(drawnCards[count]);
                 attackDeck[i]=0;
                 count++;
 
