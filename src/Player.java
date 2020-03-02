@@ -22,6 +22,8 @@ public class Player
         attackDiscard = new DiscardPiles("Attack");
         healthDiscard= new DiscardPiles ("Health");
         health = new Health();
+        for(int i=0;i<3;i++)
+            hand.add(0);
 
         // for(Integer num:hand)
         // System.out.println(num);
@@ -33,7 +35,7 @@ public class Player
         int [] drawnCards = attack.drawCards(3-cardsInHand);
         for(int i=0;i<drawnCards.length;i++)
         {
-            hand.add(drawnCards[i]);
+            hand.set(i,drawnCards[i]);
             cardsInHand++;
 
         }
