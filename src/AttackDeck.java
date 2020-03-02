@@ -10,10 +10,10 @@ public class AttackDeck
 {
     private Random random = new Random();
     private int [] attackDeck;
-    private int numOfCards;
+    private int cardsLeft;
     public AttackDeck()
     {
-        numOfCards=13;
+        cardsLeft=13;
         attackDeck = new int [25];
         int [] tempDeck = new int [13];
         for(int i=0;i<13;i++)
@@ -43,10 +43,10 @@ public class AttackDeck
                // System.out.println(drawnCards[count]);
                 attackDeck[i]=0;
                 count++;
+                cardsLeft--;
 
             }
         }
-        numOfCards=-numOfCard;
         return drawnCards;
     }
 
@@ -61,12 +61,12 @@ public class AttackDeck
             attackDeck[i]=pile[i];
         for(int i=0;i<pile.length;i++)
             if(pile[i]!=0)
-                numOfCards++;
+                cardsLeft++;
     }
 
     public int cardsRemaining()
     {
-        return numOfCards;
+        return cardsLeft;
     }
 
     /* Thanks Ms. Warnes
