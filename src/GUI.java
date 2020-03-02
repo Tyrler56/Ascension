@@ -51,7 +51,7 @@ public class GUI extends Application {
     private GridPane pane;
     private ImageView card1, card2, card3, mon1, mon2;
     private Scene scene;
-    private Button h1, h2, h3, m1, m2;
+    private Button h1, h2, h3, m1, m2,pass;
 
     public void create(String choice) {
         drawTurn = 0;
@@ -59,46 +59,48 @@ public class GUI extends Application {
         p1 = new Player(choice);
         monsters = new MonsterDeck();
         monsterDiscard = new DiscardPiles("Monster");
-        cardsInHand = new ArrayList<>();
+        cardsInHand = new ArrayList<>(3);
+        for(int i=0;i<3;i++)
+            cardsInHand.add(0);
         monsterOnField = new ArrayList<>(2);
         unblockableLane = new ArrayList<>(2);
         monstersLeft = 47;
         Health = p1.getHealth();
     }
     public void draw() {
-        switch (drawTurn) {
-            case 0:
-                p1.drawCard();
-                for (int i = 0; i < 3; i++)
-                    cardsInHand.add(p1.getHand().get(i));
-                updateHand();
-                mon1.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
-                monsterOnField.add(monsters.getMonster(monstersLeft));
-                monstersLeft--;
-                mon2.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
-                monsterOnField.add(monsters.getMonster(monstersLeft));
-                monstersLeft--;
-                Turn = turnPhases.Discard;
-                drawTurn++;
-                doTurns();
-                break;
-            case 1:
+        if(drawTurn==0) {
+
+            p1.drawCard();
+            updateHand();
+            mon1.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
+            monsterOnField.add(monsters.getMonster(monstersLeft));
+            monstersLeft--;
+            mon2.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
+            monsterOnField.add(monsters.getMonster(monstersLeft));
+            monstersLeft--;
+            Turn = turnPhases.Discard;
+            drawTurn++;
+            doTurns();
+        }
+        if(drawTurn==1){
                 p1.drawCard();
                 updateHand();
                 if (monsterOnField.get(0) == 0) ;
             {
-                mon1.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
+
                 monsterOnField.set(0, monsters.getMonster(monstersLeft));
                 monstersLeft--;
+                updateMonster();
             }
             if (monsterOnField.get(1) == 0) ;
             {
-                mon2.setImage(new Image(monsters.getMonster(monstersLeft) + "M.png"));
                 monsterOnField.set(1, monsters.getMonster(monstersLeft));
                 monstersLeft--;
+                updateMonster();
             }
             Turn = turnPhases.Discard;
             doTurns();
+
 
         }
     }
@@ -110,29 +112,44 @@ public class GUI extends Application {
         card2.setImage(new Image(cardsInHand.get(1) + ".png"));
         card3.setImage(new Image(cardsInHand.get(2) + ".png"));
     }
-
+    public void updateMonster()
+    {
+        mon1.setImage(new Image(monsterOnField.get(0)+"M.png"));
+        mon2.setImage(new Image(monsterOnField.get(1)+ "M.png"));
+    }
     public void discard() {
         Turn = turnPhases.AttackChoose;
         doTurns();
     }
 
     public void battle() {
-        if (cardChosen > monsterChosen) {
+        if (cardChosen >= monsterChosen) {
             monsterDiscard.addCards(monsterChosen);
             monsterOnField.set(indexM,0);
             p1.attack(indexP);
-            updateHand();
+
             for (Integer num : monsterOnField)
                 p1.takeDamage(num);
             Turn = turnPhases.DefendChoose;
             cardChosen=0;
             monsterChosen=0;
             updateHand();
+            updateMonster();
             doTurns();
         }
+        Turn = turnPhases.AttackChoose;
     }
 
     public void defend() {
+        for(int i=0;i<1;i++)
+        {
+            for(int k=0;k<2;k++)
+            {
+                if(monsterOnField.get(i)>cardsInHand.get(k))
+                    p1.takeDamage(monsterOnField.get(i));
+                healthNum.setText("Health Remaining: "+ p1.getHealth());
+            }
+        }
         if (cardChosen >= monsterChosen) {
             monsterDiscard.addCards(monsterChosen);
             monsterOnField.set(indexM,0);
@@ -143,10 +160,25 @@ public class GUI extends Application {
                     p1.takeDamage(monsterOnField.get(i));
             Turn = turnPhases.Draw;
             updateHand();
+            updateMonster();
             doTurns();
         }
+        Turn = turnPhases.DefendChoose;
     }
+    private void passTurn()
+    {
+        switch(Turn){
+            case AttackChoose:
+                Turn= turnPhases.DefendChoose;
+                doTurns();
+                break;
+            case DefendChoose:
+                Turn = turnPhases.Defend;
+                doTurns();
+                break;
 
+    }
+    }
     private void card1() {
         switch (Turn) {
             case AttackChoose:
@@ -344,6 +376,7 @@ public class GUI extends Application {
             h1 = new Button("Card 1");
             h2 = new Button("Card 2");
             h3 = new Button("Card 3");
+            pass = new Button("Pass");
             card1 = new ImageView();
             card2 = new ImageView();
             card3 = new ImageView();
@@ -366,6 +399,7 @@ public class GUI extends Application {
             pane.add(h1, 10, 20);
             pane.add(h2, 15, 20);
             pane.add(h3, 20, 20);
+            pane.add(pass,15,27);
             pane.add(card1, 10, 25);
             pane.add(card2, 15, 25);
             pane.add(card3, 20, 25);
@@ -375,7 +409,13 @@ public class GUI extends Application {
             stage.setTitle("Ascension");
             stage.setScene(scene);
             stage.show();
-
+            pass.setOnAction(action ->{
+                try {
+                    passTurn();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
             m1.setOnAction(action -> {
                 try {
                     monster1();

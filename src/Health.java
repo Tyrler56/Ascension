@@ -13,7 +13,7 @@ public class Health
     {
         //cardsRemaining is basically how much health is left but it doesnt
         //use the card values;
-        cardsRemaining=13;
+        cardsRemaining=12;
         healthDeck = new int[13];
         //initiates healthDeck and adds fourteen to the health card values for
         //simplicity since the gui can just convert them to the normal cards, 
@@ -33,17 +33,17 @@ public class Health
         if(card>10)
         {//if a face cards hits
 
-            damageTaken[0]=healthDeck[cardsRemaining-1];
+            damageTaken[0]=healthDeck[cardsRemaining];
             healthDeck[cardsRemaining-1]=0;
             cardsRemaining--;
             if(cardsRemaining==0)
                 return damageTaken;
-            damageTaken[1]=healthDeck[cardsRemaining-1];
+            damageTaken[1]=healthDeck[cardsRemaining];
             healthDeck[cardsRemaining-1]=0;
             cardsRemaining--;
         }else
         {//if any other card hits
-            damageTaken[0]=healthDeck[cardsRemaining-1];
+            damageTaken[0]=healthDeck[cardsRemaining];
             cardsRemaining--;
         }
         return damageTaken;
