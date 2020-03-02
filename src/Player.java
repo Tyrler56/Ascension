@@ -83,7 +83,8 @@ public class Player
     //this method is the same as doing an attack except that it does
     //not kill the monster
     public int defend(int index)
-    {   cardsInHand--;
+    {
+        cardsInHand--;
         int cardUsed = hand.get(index);
         hand.set(index,0);
         return cardUsed;
