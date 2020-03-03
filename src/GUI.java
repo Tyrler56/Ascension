@@ -235,6 +235,7 @@ public class GUI extends Application {
     private void DiscardHand(){
         p1.discardCards();
         updateHand();
+        setNextPhase();
     }
     private void card1() {
         if (p1.getHand().get(0) != 0) {
