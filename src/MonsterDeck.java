@@ -71,9 +71,6 @@ public class MonsterDeck
         int copy = monsterDeck[index];
         return copy;
     }
-    public void removeMonster(int index)
-    {
-        monsterDeck[index-1]=0;
-    }
+
 }
 

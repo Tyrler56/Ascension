@@ -9,7 +9,7 @@ public class Player
 {
     private ArrayList<Integer> hand;
     private int cardsInHand = 0;
-    private AttackDeck attack;
+    public AttackDeck attack;
     private DiscardPiles attackDiscard;
     private DiscardPiles healthDiscard;
     private Health health;
@@ -38,6 +38,8 @@ public class Player
         {
             if(attack.cardsRemaining()==0)
                 attack.addCards(attackDiscard.removeCards());
+            if(index==drawnCards.length)
+                break;
             if(hand.get(i)==0) {
                 hand.set(i, drawnCards[index]);
                 index++;

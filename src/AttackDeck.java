@@ -9,20 +9,18 @@ import java.util.*;
 public class AttackDeck
 {
     private Random random = new Random();
-    private int [] attackDeck;
+    private ArrayList <Integer>attackDeck;
     private int cardsLeft;
     public AttackDeck()
     {
-        cardsLeft=13;
-        attackDeck = new int [25];
+        cardsLeft=12;
+        attackDeck = new ArrayList<>();
         int [] tempDeck = new int [13];
         for(int i=0;i<13;i++)
-            tempDeck[i]=i+1;
-        shuffleIntArray(tempDeck);
+            attackDeck.add(i+1);
+        Collections.shuffle(attackDeck);
         //for(int i =0;i<tempDeck.length;i++)
           //System.out.print(tempDeck[i]+" ");
-        for(int i=0;i<tempDeck.length;i++)
-            attackDeck[i]=tempDeck[i];
     }
 
     /*This method is used at the start of each turn to draw the
@@ -33,15 +31,15 @@ public class AttackDeck
     {
         int [] drawnCards = new int [numOfCard];
         int count=0;
-        for(int i=24;i>0;i--)
+        for(int i=cardsLeft;i>0;i--)
         {
             if(count==numOfCard)
                 break;
-            if(attackDeck[i]!=0)
+            if(attackDeck.get(i)!=0)
             {
-                drawnCards[count]=attackDeck[i];
+                drawnCards[count]=attackDeck.get(i);
                // System.out.println(drawnCards[count]);
-                attackDeck[i]=0;
+                attackDeck.remove(i);
                 count++;
                 cardsLeft--;
 
@@ -58,10 +56,12 @@ public class AttackDeck
     public void addCards(int [] pile)
     {
         for(int i=0;i<pile.length;i++)
-            attackDeck[i]=pile[i];
+            if(pile[i]!=0)
+            attackDeck.add(pile[i]);
         for(int i=0;i<pile.length;i++)
             if(pile[i]!=0)
                 cardsLeft++;
+
     }
 
     public int cardsRemaining()

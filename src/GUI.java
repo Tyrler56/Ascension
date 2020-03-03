@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -50,9 +51,9 @@ public class GUI extends Application {
     private GridPane pane;
     private ImageView card1, card2, card3, mon1, mon2;
     private Scene scene;
-    private Button h1, h2, h3, m1, m2, nextPhase,discardHand;
+    private Button h1, h2, h3, m1, m2, nextPhase, discardHand;
 
-    //The construcor will handle all the player creation things and field creation
+    //The constructor will handle all the player creation things and field creation
     public void create(String choice) {
         drawTurn = 0;
         p1 = new Player(choice);
@@ -96,9 +97,8 @@ public class GUI extends Application {
                 monstersLeft--;
                 updateMonster();
             }
-
-
         }
+        attackDeck.setText("Attack Deck\nCards Remaining: "+p1.attack.cardsRemaining());
     }
 
     /*The two following methods update the field so they get their data from the two array list for monster and hand
@@ -124,11 +124,12 @@ public class GUI extends Application {
 
 
     }
+
     /*This method takes care of the attack phase
      *
      */
     public void battle() {
-        if (cardChosen >= monsterChosen&&cardChosen!=0) {
+        if (cardChosen >= monsterChosen && cardChosen != 0) {
             monsterDiscard.addCards(monsterChosen);
             monsterOnField.set(indexM, 0);
             p1.attack(indexP);
@@ -139,9 +140,10 @@ public class GUI extends Application {
 
 
     }
-/*This method takes care of the defending phase and has safeguards against not choosing a card
- *
- */
+
+    /*This method takes care of the defending phase and has safeguards against not choosing a card
+     *
+     */
     public void defend() {
         if (cardChosen == 0 && monsterChosen == 0)
             for (int i = 0; i < 2; i++)
@@ -162,7 +164,23 @@ public class GUI extends Application {
             updateMonster();
 
         }
+        if(checkVictory()==0) {
+            Phase = 3;
+            start(stage);
+        }
+        if(checkVictory()==1){
+            Phase=4;
+            start(stage);
+        }
 
+    }
+    private int checkVictory()
+    {
+        if(p1.isDead())
+            return 0;
+        if(monstersLeft==0)
+            return 1;
+        return 2;
     }
     /*This is the action event for the button in charge of the phase changes
      *it will also update the current stage in the currentPhase label
@@ -229,14 +247,17 @@ public class GUI extends Application {
                 break;
         }
     }
-/*The following ten methods are all just action events for the buttons created
- * at the moment they do not do much more than change the stage but the class choices are what allow different classes to be played.
- */
-    private void DiscardHand(){
+
+    /*The following methods are all just action events for the buttons created
+     * at the moment they do not do much more than change the stage but the class choices are what allow different classes to be played.
+     */
+    private void DiscardHand() {
         p1.discardCards();
         updateHand();
+        attackDeck.setText("Attack Deck\nCards Remaining: "+p1.attack.cardsRemaining());
         setNextPhase();
     }
+
     private void card1() {
         if (p1.getHand().get(0) != 0) {
             cardChosen = p1.getHand().get(0);
@@ -316,6 +337,7 @@ public class GUI extends Application {
 
         start(stage);
     }
+
     /*This method is the stage creator the GUI. Depending on the stage it will create a different scene
      *The scene that is used for gameplay is phase 2. In that phase all the buttons and label are initialized for use later
      *
@@ -354,11 +376,13 @@ public class GUI extends Application {
             stage.show();
         }
         if (Phase == 1) {
+            //creating the new buttons and labels
             Label options = new Label("Choose Your Class");
             Button b1 = new Button("Mage");
             Button b2 = new Button("Warrior");
             Button b3 = new Button("Rogue");
             Button b4 = new Button("Paladin");
+            //setting the actions fro the buttons
             b1.setOnAction(action -> {
                 try {
                     ClassMage();
@@ -387,7 +411,9 @@ public class GUI extends Application {
                     e.printStackTrace();
                 }
             });
+            //creating a new grid pane
             GridPane pane = new GridPane();
+            //adding all the pieces to the grid pane
             pane.setPadding(new Insets(10, 10, 10, 10));
             pane.setMinSize(300, 300);
             pane.setVgap(10);
@@ -397,12 +423,14 @@ public class GUI extends Application {
             pane.add(b2, 3, 10);
             pane.add(b3, 5, 10);
             pane.add(b4, 7, 10);
+            //adding the pane to the scene then showing it
             scene = new Scene(pane, 400, 200);
             stage.setTitle("Ascension");
             stage.setScene(scene);
             stage.show();
         }
         if (Phase == 2) {
+            //creating all the labels and buttons
             monsterDeck = new Label("Monster Deck");
             monsterDiscardL = new Label("Monster Discard Pile");
             healthDeck = new Label("Health Deck");
@@ -424,6 +452,7 @@ public class GUI extends Application {
             mon1 = new ImageView();
             mon2 = new ImageView();
             pane = new GridPane();
+            //creating the grid pane
             pane.setPadding(new Insets(10, 10, 10, 10));
             pane.setMinSize(300, 300);
             pane.setVgap(10);
@@ -447,17 +476,19 @@ public class GUI extends Application {
             pane.add(card3, 20, 25);
             pane.add(mon1, 15, 7);
             pane.add(mon2, 20, 7);
-            pane.add(discardHand,25,27);
-            scene = new Scene(pane, 850, 600);
+            pane.add(discardHand, 25, 27);
+            //adding the pane to the scene and then showing the scene
+            scene = new Scene(pane, 850, 625);
             stage.setTitle("Ascension");
             stage.setScene(scene);
             stage.show();
-            discardHand.setOnAction(action ->{
-                    try {
-                        DiscardHand();
-                    }catch(Exception e) {
-                        e.printStackTrace();
-                    }
+            //adding actions to the buttons
+            discardHand.setOnAction(action -> {
+                try {
+                    DiscardHand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             });
             nextPhase.setOnAction(action -> {
                 try {
@@ -502,6 +533,8 @@ public class GUI extends Application {
                     e.printStackTrace();
                 }
             });
+            //setting some of the buttons visibility to false so that they are not clicked during a phase where
+            //they are not needed
             discardHand.setVisible(false);
             m1.setVisible(false);
             m2.setVisible(false);
@@ -510,7 +543,46 @@ public class GUI extends Application {
             h3.setVisible(false);
             doTurns();
         }
+        if(Phase==3){
+            Button myB = new Button("");
+            myB.setGraphic(new ImageView(new Image("Defeat.png")));
+            myB.setPrefSize(300, 100);
+            pane = new GridPane();
+            pane.setPadding(new Insets(10, 10, 10, 10));
+            pane.setMinSize(300, 300);
+            pane.setVgap(10);
+            pane.setHgap(10);
+            // Add the button and label into the pane
+            pane.add(myB, 9, 8);
+
+            // JavaFX must have a Scene (window content) inside a Stage (window)
+            scene = new Scene(pane, 500, 300);
+            stage.setTitle("Ascension");
+            stage.setScene(scene);
+            // Show the Stage (window)
+            stage.show();
+        }
+        if(Phase==4){
+            Button myB = new Button("Victory");
+            myB.setPrefSize(300, 100);
+            pane = new GridPane();
+            pane.setPadding(new Insets(10, 10, 10, 10));
+            pane.setMinSize(300, 300);
+            pane.setVgap(10);
+            pane.setHgap(10);
+            // Add the button and label into the pane
+            pane.add(myB, 9, 8);
+
+            // JavaFX must have a Scene (window content) inside a Stage (window)
+            scene = new Scene(pane, 500, 300);
+            stage.setTitle("Ascension");
+            stage.setScene(scene);
+
+            // Show the Stage (window)
+            stage.show();
+        }
     }
+
     //This method is the one in charge of calling all the other turn methods that were created above
     private void doTurns() {
         switch (Turn) {
