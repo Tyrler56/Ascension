@@ -108,6 +108,7 @@ public class GUI extends Application {
     }
 
     public void updateMonster() {
+        monsterDeck.setText("Monster Deck \nMonsters Left: "+monstersLeft);
         mon1.setImage(new Image(monsterOnField.get(0) + "M.png"));
         mon2.setImage(new Image(monsterOnField.get(1) + "M.png"));
     }
