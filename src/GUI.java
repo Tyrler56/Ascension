@@ -59,7 +59,7 @@ public class GUI extends Application {
             cardsInHand.add(0);
         monsterOnField = new ArrayList<>(2);
         monstersLeft = 47;
-        Health = p1.getHealth() + 1;
+        Health = p1.getHealth() ;
     }
 
     /*This method is called whenever the draw phase begins
@@ -145,7 +145,7 @@ public class GUI extends Application {
             for (int i = 0; i < 2; i++)
                 if (monsterOnField.get(i) != 0) {
                     p1.takeDamage(monsterOnField.get(i));
-                    healthNum.setText("Health Remaining: " + (p1.getHealth() + 1));
+                    healthNum.setText("Health Remaining: " + (p1.getHealth()));
                 }
 
         if (cardChosen >= monsterChosen && cardChosen != 0) {
@@ -341,6 +341,10 @@ public class GUI extends Application {
      */
     public void start(Stage holder) {
         if (Phase == 0) {
+            Label instrucitons = new Label("Welcome to Ascension! So that Turn Phases goes in the order Draw, Discard,\nAttack Choose, Attack, Defend Choose, and Defend. " +
+                    "Draw is done automatically \nfor you. Discard allows for the option to discard your whole hand and draw 1 \ncard. AttackChoose allows you to choose your target. " +
+                    "Same with DefendChoose. \nAttack and Defend show the results of your choices. In order to switch \nphases you must click the change phase button at the bottom of the screen." +
+                    "\nSo those are the basics. To Win you must defeat all monsters in the monster \ndeck. But watch out if your health hits 0, it's game over."+"\nHAVE FUN!");
             // Create a Button or any control item
             Button myButton = new Button("start");
             myButton.setPrefSize(300, 100);
@@ -361,10 +365,11 @@ public class GUI extends Application {
             });
 
             // Add the button and label into the pane
-            pane.add(myButton, 9, 8);
+            pane.add(myButton, 5, 5);
+            pane.add(instrucitons,5,8);
 
             // JavaFX must have a Scene (window content) inside a Stage (window)
-            scene = new Scene(pane, 500, 300);
+            scene = new Scene(pane, 500, 400);
             stage.setTitle("Ascension");
             stage.setScene(scene);
 
@@ -428,6 +433,7 @@ public class GUI extends Application {
         if (Phase == 2) {
             //creating all the labels and buttons
             monsterDeck = new Label("\nMonster Deck");
+            monsterDeck.setText("Monster Deck \nMonsters Left: "+monstersLeft);
             monsterDeck.setGraphic(new ImageView(new Image("backOfCard.png")));
             monsterDiscardL = new Label("\nMonster Discard Pile");
             monsterDiscardL.setGraphic(new ImageView(new Image("backOfCard.png")));
@@ -469,11 +475,11 @@ public class GUI extends Application {
             pane.add(currentPhase, 25, 5);
             pane.add(m1, 15, 5);
             pane.add(m2, 20, 5);
-            pane.add(h1, 13, 20);
+            pane.add(h1, 12, 20);
             pane.add(h2, 15, 20);
             pane.add(h3, 20, 20);
             pane.add(nextPhase, 20, 27);
-            pane.add(card1, 13, 25);
+            pane.add(card1, 12, 25);
             pane.add(card2, 15, 25);
             pane.add(card3, 20, 25);
             pane.add(mon1, 15, 7);
@@ -583,6 +589,7 @@ public class GUI extends Application {
             // Show the Stage (window)
             stage.show();
         }
+
     }
 
     //This method is the one in charge of calling all the other turn methods that were created above
