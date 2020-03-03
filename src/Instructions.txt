@@ -1,0 +1,4 @@
+"Welcome to Ascension! So that Turn Phases goes in the order Draw, Discard,\nAttack Choose, Attack, Defend Choose, and Defend. " +
+"Draw is done automatically \nfor you. Discard allows for the option to discard your whole hand and draw 1 \ncard. AttackChoose allows you to choose your target. " +
+"Same with DefendChoose. \nAttack and Defend show the results of your choices. In order to switch \nphases you must click the change phase button at the bottom of the screen." +
+"\nSo those are the basics. To Win you must defeat all monsters in the monster \ndeck. But watch out if your health hits 0, it's game over."+"\nHAVE FUN!");

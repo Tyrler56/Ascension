@@ -77,6 +77,7 @@ public class GUI extends Application {
             monsterOnField.add(monsters.getMonster(monstersLeft));
             monstersLeft--;
             drawTurn = 1;
+            monsterDeck.setText("Monster Deck \nMonsters Left: "+monstersLeft);
 
         }
         if (drawTurn == 1) {
@@ -343,7 +344,8 @@ public class GUI extends Application {
         if (Phase == 0) {
             Label instrucitons = new Label("Welcome to Ascension! So that Turn Phases goes in the order Draw, Discard,\nAttack Choose, Attack, Defend Choose, and Defend. " +
                     "Draw is done automatically \nfor you. Discard allows for the option to discard your whole hand and draw 1 \ncard. AttackChoose allows you to choose your target. " +
-                    "Same with DefendChoose. \nAttack and Defend show the results of your choices. In order to switch \nphases you must click the change phase button at the bottom of the screen." +
+                    "Same with DefendChoose.\nTo choose a target click on the card that you want and once the decision is made,\n press the next phase button. The buttons for the cards will only appear" +
+                    "\nduring the appropriate Phase \nAttack and Defend show the results of your choices. In order to switch \nphases you must click the change phase button at the bottom of the screen." +
                     "\nSo those are the basics. To Win you must defeat all monsters in the monster \ndeck. But watch out if your health hits 0, it's game over."+"\nHAVE FUN!");
             // Create a Button or any control item
             Button myButton = new Button("start");
