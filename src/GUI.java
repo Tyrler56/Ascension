@@ -22,6 +22,7 @@ import java.util.ArrayList;
  * @author (Benito Moreno - Garza & Grayson Drinkard)
  */
 public class GUI extends Application {
+    //I am
     public enum turnPhases {
         Draw,
         Discard,
@@ -35,12 +36,6 @@ public class GUI extends Application {
     private Stage stage = new Stage();
     //This phase is what determines what the gui will display
     private int Phase = 0;
-    //These are the different turns each one will be in charge of the turn phases in the game
-    // private int Draw = 0;
-    // private int Discard = 1;
-    // private int Attack = 2;
-    // private int Defend = 3;
-    //the overall turn counter
     private turnPhases Turn = turnPhases.Draw;
     private Player p1;
     private MonsterDeck monsters;
@@ -333,8 +328,8 @@ public class GUI extends Application {
     }
 
     private void classChoice() {
-        Phase++;
-
+        Phase=2;
+        create("generic");
         start(stage);
     }
 
@@ -431,12 +426,18 @@ public class GUI extends Application {
         }
         if (Phase == 2) {
             //creating all the labels and buttons
-            monsterDeck = new Label("Monster Deck");
-            monsterDiscardL = new Label("Monster Discard Pile");
-            healthDeck = new Label("Health Deck");
-            healthDiscard = new Label("Health Discard Pile");
-            attackDeck = new Label("Attack Deck");
-            attackDiscard = new Label("Attack Discard Pile");
+            monsterDeck = new Label("\nMonster Deck");
+            monsterDeck.setGraphic(new ImageView(new Image("backOfCard.png")));
+            monsterDiscardL = new Label("\nMonster Discard Pile");
+            monsterDiscardL.setGraphic(new ImageView(new Image("backOfCard.png")));
+            healthDeck = new Label("\nHealth Deck");
+            healthDeck.setGraphic(new ImageView(new Image("backOfCard.png")));
+            healthDiscard = new Label("\nHealth Discard Pile");
+            healthDiscard.setGraphic(new ImageView(new Image("backOfCard.png")));
+            attackDeck = new Label("\nAttack Deck");
+            attackDeck.setGraphic(new ImageView(new Image("backOfCard.png")));
+            attackDiscard = new Label("\nAttack Discard Pile");
+            attackDiscard.setGraphic(new ImageView(new Image("backOfCard.png")));
             healthNum = new Label("Health Remaining: " + Health);
             currentPhase = new Label("Current Phase is:" + Turn);
             m1 = new Button("Monster 1");
@@ -467,18 +468,18 @@ public class GUI extends Application {
             pane.add(currentPhase, 25, 5);
             pane.add(m1, 15, 5);
             pane.add(m2, 20, 5);
-            pane.add(h1, 10, 20);
+            pane.add(h1, 13, 20);
             pane.add(h2, 15, 20);
             pane.add(h3, 20, 20);
             pane.add(nextPhase, 20, 27);
-            pane.add(card1, 10, 25);
+            pane.add(card1, 13, 25);
             pane.add(card2, 15, 25);
             pane.add(card3, 20, 25);
             pane.add(mon1, 15, 7);
             pane.add(mon2, 20, 7);
             pane.add(discardHand, 25, 27);
             //adding the pane to the scene and then showing the scene
-            scene = new Scene(pane, 850, 625);
+            scene = new Scene(pane, 1150, 750);
             stage.setTitle("Ascension");
             stage.setScene(scene);
             stage.show();
